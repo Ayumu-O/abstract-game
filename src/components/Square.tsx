@@ -40,8 +40,12 @@ function Square({ cell }: { cell: Cell }) {
     displayText = "2";
     btnColor = "btn-secondary";
   }
-  if (cursoredCell && cell.equals(cursoredCell)) {
-    btnColor += " opacity-50";
+  if (state.candidates.some((c) => c.equals(cell))) {
+    btnColor += " opacity-30";
+    btnColor += state.playerIs1 ? " bg-primary" : " bg-secondary";
+  }
+  if (cursoredCell && cursoredCell.equals(cell)) {
+    btnColor += " opacity-70";
     btnColor += state.playerIs1 ? " bg-primary" : " bg-secondary";
   }
   return (

@@ -1,14 +1,8 @@
-import { useAtom } from "jotai";
-import { BoardState } from "../domain/boardState";
+import { useAtomValue } from "jotai";
 import { boardStateAtom } from "../store";
 
 function Description() {
-  const [state, setState] = useAtom(boardStateAtom);
-
-  const handleClickReset = (e: React.MouseEvent) => {
-    e.preventDefault();
-    setState(BoardState.reset());
-  };
+  const state = useAtomValue(boardStateAtom);
 
   let bgColor;
   let description;
@@ -26,14 +20,6 @@ function Description() {
       >
         {description}
       </div>
-      {state.winner && (
-        <button
-          className="btn btn-neutral w-24 h-8 ml-4"
-          onClick={(e) => handleClickReset(e)}
-        >
-          Reset
-        </button>
-      )}
     </div>
   );
 }

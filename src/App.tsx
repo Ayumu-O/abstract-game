@@ -2,6 +2,7 @@ import { useAtomValue, useSetAtom } from "jotai";
 import { useEffect } from "react";
 import "./App.css";
 import Board from "./components/Board";
+import Buttons from "./components/Buttons";
 import Description from "./components/Description";
 import PlayerInfo from "./components/PlayerInfo";
 import Sidebar from "./components/Sidebar";
@@ -35,7 +36,8 @@ function App() {
           <Description />
           <Board />
         </div>
-        <div className="ml-20 mt-48 w-88 flex flex-col">
+        <div className="ml-20 w-88 flex flex-col items-start justify-center">
+          <Buttons />
           <PlayerInfo player={Player.PLAYER1} />
           <PlayerInfo player={Player.PLAYER2} />
         </div>

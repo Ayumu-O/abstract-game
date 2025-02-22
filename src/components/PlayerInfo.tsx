@@ -10,7 +10,7 @@ function PlayerInfo({ player }: { player: Player }) {
   const playerName = player === Player.PLAYER1 ? "Player1" : "Player2";
 
   return (
-    <div className={`border border-${color} h-60 rounded p-8 mb-30`}>
+    <div className={`border border-${color} h-60 rounded p-8 mb-10 w-full`}>
       {playerName}
       <div className="flex mt-4">
         {Array.from({ length: wallNum }).map((_, i) => (

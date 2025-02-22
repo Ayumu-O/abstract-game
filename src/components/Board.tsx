@@ -1,5 +1,5 @@
 import { useAtomValue } from "jotai";
-import { BoardState } from "../domain/boardState";
+import { Settings } from "../domain/settings";
 import { boardStateAtom } from "../store";
 import Space from "./Space";
 import Square from "./Square";
@@ -10,9 +10,9 @@ function Board() {
 
   return (
     <div className="flex flex-col items-center justify-center mt-10">
-      {Array.from({ length: BoardState.sideLength }).map((row, y) => (
+      {Array.from({ length: Settings.BOARD_SIDE_LENGTH }).map((row, y) => (
         <div className="flex " key={y}>
-          {Array.from({ length: BoardState.sideLength }).map((col, x) => {
+          {Array.from({ length: Settings.BOARD_SIDE_LENGTH }).map((col, x) => {
             const cell = cells.find((cell) => cell.x === x && cell.y === y);
             if (!cell) {
               return null;

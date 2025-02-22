@@ -12,11 +12,11 @@ export class BoardState {
     public walls: number[],
     private readonly needCalcCandidates = true
   ) {
+    this.winner = this.calcWinner();
     this.candidates = [];
-    if (this.needCalcCandidates) {
+    if (!this.winner && this.needCalcCandidates) {
       this.candidates = this.calcCandidates();
     }
-    this.winner = this.calcWinner();
   }
 
   // プレイヤーがPLAYER1かどうかを判定する
@@ -100,7 +100,7 @@ export class BoardState {
   }
 
   // プレイヤーの壁の数を取得する
-  private getPlayerWalls(player: Player) {
+  public getPlayerWalls(player: Player) {
     return this.walls[player === Player.PLAYER1 ? 0 : 1];
   }
 

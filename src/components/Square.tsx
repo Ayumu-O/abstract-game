@@ -1,13 +1,11 @@
 import { useAtom } from "jotai";
 import { Cell } from "../domain/cell";
 import { Player } from "../domain/player";
-import { boardStateAtom, currentPlayerAtom, cursoredCellAtom } from "../store";
+import { boardStateAtom, cursoredCellAtom } from "../store";
 
 function Square({ cell }: { cell: Cell }) {
   const [state, setState] = useAtom(boardStateAtom);
   const [cursoredCell, setCursoredCell] = useAtom(cursoredCellAtom);
-  const [currentPlayer, setCurrentPlayer] = useAtom(currentPlayerAtom);
-  const currentPlayerIs1 = currentPlayer === Player.PLAYER1;
 
   const handleSquareClick = (e: React.MouseEvent, cell: Cell) => {
     e.preventDefault();
@@ -15,12 +13,10 @@ function Square({ cell }: { cell: Cell }) {
       return;
     }
 
-    const newState = state.movePiece(currentPlayer, cell);
-    const nextPlayer = currentPlayerIs1 ? Player.PLAYER2 : Player.PLAYER1;
+    const newState = state.movePiece(state.player, cell);
 
     setCursoredCell(null);
     setState(newState);
-    setCurrentPlayer(nextPlayer);
   };
 
   const handleSquareMouseEnter = (e: React.MouseEvent, cell: Cell) => {
@@ -46,7 +42,7 @@ function Square({ cell }: { cell: Cell }) {
   }
   if (cursoredCell && cell.equals(cursoredCell)) {
     btnColor += " opacity-50";
-    btnColor += currentPlayerIs1 ? " bg-primary" : " bg-secondary";
+    btnColor += state.playerIs1 ? " bg-primary" : " bg-secondary";
   }
   return (
     <button

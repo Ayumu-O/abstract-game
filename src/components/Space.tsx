@@ -1,13 +1,11 @@
 import { useAtom } from "jotai";
 import { Cell } from "../domain/cell";
 import { Player } from "../domain/player";
-import { boardStateAtom, currentPlayerAtom, cursoredCellAtom } from "../store";
+import { boardStateAtom, cursoredCellAtom } from "../store";
 
 function Space({ cell }: { cell: Cell }) {
   const [state, setState] = useAtom(boardStateAtom);
   const [cursoredCell, setCursoredCell] = useAtom(cursoredCellAtom);
-  const [currentPlayer, setCurrentPlayer] = useAtom(currentPlayerAtom);
-  const currentPlayerIs1 = currentPlayer === Player.PLAYER1;
 
   const handleSpaceClick = (e: React.MouseEvent, cell: Cell) => {
     e.preventDefault();
@@ -15,12 +13,10 @@ function Space({ cell }: { cell: Cell }) {
       return;
     }
 
-    const newState = state.placeWall(currentPlayer, cell);
-    const nextPlayer = currentPlayerIs1 ? Player.PLAYER2 : Player.PLAYER1;
+    const newState = state.placeWall(state.player, cell);
 
     setCursoredCell(null);
     setState(newState);
-    setCurrentPlayer(nextPlayer);
   };
 
   const handleSpaceMouseEnter = (e: React.MouseEvent, cell: Cell) => {
@@ -54,7 +50,7 @@ function Space({ cell }: { cell: Cell }) {
   // カーソルが乗っている場合は色を変える
   if (cursoredCell && cell.equals(cursoredCell)) {
     properties += " border-0 rounded-none opacity-50";
-    properties += currentPlayerIs1 ? " bg-primary" : " bg-secondary";
+    properties += state.playerIs1 ? " bg-primary" : " bg-secondary";
   }
   return (
     <div

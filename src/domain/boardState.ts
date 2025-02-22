@@ -174,7 +174,7 @@ export class BoardState {
       } else {
         // 2マス先に相手の駒がある場合
         const step3 = this.getMovedCell(step2!, direction);
-        if (step3 && step3.player) {
+        if (!step3 || step3.player) {
           // 相手の駒を飛び越えた先に壁がある場合は斜めに移動できるか確認する
           for (let turn = 1; turn <= 3; turn += 2) {
             const newDirection = BoardState.directions[(index + turn) % 4];
@@ -189,7 +189,7 @@ export class BoardState {
           }
         } else {
           // 相手の駒を飛び越えることができる場合
-          const step4 = this.getMovedCell(step3!, direction);
+          const step4 = this.getMovedCell(step3, direction);
           candidates.push(step4!);
         }
       }
@@ -200,7 +200,6 @@ export class BoardState {
 
   // 壁を設置可能なセルを計算する
   private calcWallCandidates(): Position[] {
-    console.log("calcWallCandidates");
     // プレイヤーに壁が残っていない場合はスキップ
     if (this.getPlayerWalls(this.player) === 0) {
       return [];
@@ -308,5 +307,38 @@ export class BoardState {
     }
     // どちらもゴールに到達できた場合
     return true;
+  }
+
+  // 盤面の状態をシリアライズする
+  public serialize(): string {
+    const cellsState = this.cells
+      .map((cell) => {
+        if (cell.player === Player.PLAYER1) return "1";
+        if (cell.player === Player.PLAYER2) return "2";
+        return "0";
+      })
+      .join("");
+
+    return JSON.stringify({
+      cells: cellsState,
+      player: this.player,
+      walls: this.walls,
+    });
+  }
+
+  // シリアライズされた状態から盤面を再構築する
+  public static deserialize(serialized: string): BoardState {
+    const { cells: cellsState, player, walls } = JSON.parse(serialized);
+
+    const cells = cellsState.split("").map((state: string, index: number) => {
+      const x = index % Settings.BOARD_SIDE_LENGTH;
+      const y = Math.floor(index / Settings.BOARD_SIDE_LENGTH);
+      let cellPlayer = null;
+      if (state === "1") cellPlayer = Player.PLAYER1;
+      if (state === "2") cellPlayer = Player.PLAYER2;
+      return new Cell(x, y, cellPlayer);
+    });
+
+    return new BoardState(cells, player, walls);
   }
 }

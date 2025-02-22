@@ -1,10 +1,37 @@
 import { useAtom, useAtomValue } from "jotai";
+import { useState } from "react";
 import { boardStateAtom, openSidebarAtom, serialAtom } from "../store";
 
 function Sidebar() {
   const state = useAtomValue(boardStateAtom);
   const [serial, setSerial] = useAtom(serialAtom);
   const [open, setOpen] = useAtom(openSidebarAtom);
+  const [copySuccess, setCopySuccess] = useState<boolean | null>(null);
+
+  const handleClick = () => {
+    return async () => {
+      try {
+        await navigator.clipboard.writeText(state.serialize());
+        setCopySuccess(true);
+      } catch (e) {
+        console.error(e);
+        setCopySuccess(false);
+      }
+    };
+  };
+
+  const tooltipColor =
+    copySuccess === null
+      ? ""
+      : copySuccess
+      ? "tooltip-success"
+      : "tooltip-error";
+  const tooltipText =
+    copySuccess === null
+      ? "クリップボードにコピー"
+      : copySuccess
+      ? "コピーしました"
+      : "コピーに失敗しました";
 
   return (
     <>
@@ -35,14 +62,31 @@ function Sidebar() {
           open ? "translate-x-0 " : "translate-x-full"
         }`}
       >
-        <h3 className="mt-20 text-3xl font-semibold text-white">シリアル</h3>
-        <p className="mt-4 text-white  break-words">{state.serialize()}</p>
+        <div className="flex items-center justify-between pt-20">
+          <h3 className="text-3xl font-semibold text-white">シリアル</h3>
+          <div className={`tooltip ${tooltipColor}`} data-tip={tooltipText}>
+            <button
+              className="btn "
+              onClick={handleClick()}
+              onMouseLeave={() =>
+                setTimeout(() => {
+                  setCopySuccess(null);
+                }, 200)
+              }
+            >
+              コピー
+            </button>
+          </div>
+        </div>
+        <p className="mt-4 text-white break-words bg-gray-500 rounded p-2">
+          {state.serialize()}
+        </p>
 
         <h3 className="mt-20 text-3xl font-semibold text-white">
           シリアルから復元
         </h3>
         <textarea
-          className="mt-4 p-2 w-full rounded h-56"
+          className="mt-4 p-2 w-full rounded h-56 textarea textarea-accent"
           value={serial}
           onChange={(e) => setSerial(e.target.value)}
         />

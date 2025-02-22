@@ -6,6 +6,7 @@ import Square from "./Square";
 
 function Board() {
   const state = useAtomValue(boardStateAtom);
+  console.log(state);
   const { cells } = state;
 
   return (

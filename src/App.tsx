@@ -7,11 +7,13 @@ import Description from "./components/Description";
 import PlayerInfo from "./components/PlayerInfo";
 import Sidebar from "./components/Sidebar";
 import { BoardState } from "./domain/boardState";
+import { Candidates } from "./domain/candidates";
 import { Player } from "./domain/player";
-import { boardStateAtom, serialAtom } from "./store";
+import { boardStateAtom, candidatesAtom, serialAtom } from "./store";
 
 function App() {
   const setState = useSetAtom(boardStateAtom);
+  const setCandidates = useSetAtom(candidatesAtom);
   const serial = useAtomValue(serialAtom);
 
   useEffect(() => {
@@ -26,6 +28,7 @@ function App() {
       newBoardState = BoardState.reset();
     }
     setState(newBoardState);
+    setCandidates(Candidates.calcCandidates(newBoardState));
   }, [serial, setState]);
 
   return (

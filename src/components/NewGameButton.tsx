@@ -1,13 +1,17 @@
 import { useSetAtom } from "jotai";
 import { BoardState } from "../domain/boardState";
-import { boardStateAtom } from "../store";
+import { Candidates } from "../domain/candidates";
+import { boardStateAtom, candidatesAtom } from "../store";
 
 function NewGameButton() {
   const setState = useSetAtom(boardStateAtom);
+  const setCandidates = useSetAtom(candidatesAtom);
 
   const handleClickReset = (e: React.MouseEvent) => {
     e.preventDefault();
-    setState(BoardState.reset());
+    const newState = BoardState.reset();
+    setState(newState);
+    setCandidates(Candidates.calcCandidates(newState));
   };
 
   return (

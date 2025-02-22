@@ -1,15 +1,17 @@
 import { useAtom } from "jotai";
+import { Candidates } from "../domain/candidates";
 import { Cell } from "../domain/cell";
 import { Player } from "../domain/player";
-import { boardStateAtom, cursoredCellAtom } from "../store";
+import { boardStateAtom, candidatesAtom, cursoredCellAtom } from "../store";
 
 function Square({ cell }: { cell: Cell }) {
   const [state, setState] = useAtom(boardStateAtom);
+  const [candidates, setCandidates] = useAtom(candidatesAtom);
   const [cursoredCell, setCursoredCell] = useAtom(cursoredCellAtom);
 
   const handleSquareClick = (e: React.MouseEvent, cell: Cell) => {
     e.preventDefault();
-    if (!state.canPlace(cell)) {
+    if (!candidates.canPlace(cell)) {
       return;
     }
 
@@ -17,11 +19,12 @@ function Square({ cell }: { cell: Cell }) {
 
     setCursoredCell(null);
     setState(newState);
+    setCandidates(Candidates.calcCandidates(newState));
   };
 
   const handleSquareMouseEnter = (e: React.MouseEvent, cell: Cell) => {
     e.preventDefault();
-    if (state.canPlace(cell)) {
+    if (candidates.canPlace(cell)) {
       setCursoredCell(cell);
     }
   };
@@ -40,7 +43,7 @@ function Square({ cell }: { cell: Cell }) {
     displayText = "2";
     btnColor = "btn-secondary";
   }
-  if (state.candidates.some((c) => c.equals(cell))) {
+  if (candidates.canPlace(cell)) {
     btnColor += " opacity-30";
     btnColor += state.playerIs1 ? " bg-primary" : " bg-secondary";
   }

@@ -1,5 +1,5 @@
 import { useAtom, useAtomValue } from "jotai";
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { boardStateAtom, openSidebarAtom, serialAtom } from "../store";
 
 function Sidebar() {
@@ -7,6 +7,23 @@ function Sidebar() {
   const [serial, setSerial] = useAtom(serialAtom);
   const [open, setOpen] = useAtom(openSidebarAtom);
   const [copySuccess, setCopySuccess] = useState<boolean | null>(null);
+  const sidebarRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    function handleClickOutside(event: MouseEvent) {
+      if (
+        sidebarRef.current &&
+        !sidebarRef.current.contains(event.target as Node)
+      ) {
+        setOpen(false);
+      }
+    }
+
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, [setOpen]);
 
   const handleClick = () => {
     return async () => {
@@ -58,6 +75,7 @@ function Sidebar() {
       )}
 
       <div
+        ref={sidebarRef}
         className={`top-0 right-0 w-[35vw] bg-gray-600  p-10 pl-20 text-white fixed h-full z-40  ease-in-out duration-300 ${
           open ? "translate-x-0 " : "translate-x-full"
         }`}

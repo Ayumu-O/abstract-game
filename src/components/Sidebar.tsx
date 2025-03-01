@@ -54,7 +54,7 @@ function Sidebar() {
     <>
       {open ? (
         <button
-          className="flex text-4xl text-white items-center cursor-pointer fixed right-10 top-6 z-50"
+          className="flex text-[4vh] text-white items-center cursor-pointer fixed right-10 top-6 z-50"
           onClick={() => setOpen(!open)}
         >
           x
@@ -76,12 +76,19 @@ function Sidebar() {
 
       <div
         ref={sidebarRef}
-        className={`top-0 right-0 w-[35vw] bg-gray-600  p-10 pl-20 text-white fixed h-full z-40  ease-in-out duration-300 ${
-          open ? "translate-x-0 " : "translate-x-full"
-        }`}
+        className={`
+          top-0 right-0 w-[36vw] max-md:w-full
+          bg-gray-600 text-white 
+          fixed h-full z-40
+          overflow-y-auto
+          overflow-x-hidden
+          p-[4vw]
+          ease-in-out duration-300 ${
+            open ? "translate-x-0 " : "translate-x-full"
+          }`}
       >
-        <div className="flex items-center justify-between pt-20">
-          <h3 className="text-3xl font-semibold text-white">シリアル</h3>
+        <div className="flex items-center justify-between mt-[8vh]">
+          <h3 className="text-[4vh] font-semibold text-white">シリアル</h3>
           <div className={`tooltip ${tooltipColor}`} data-tip={tooltipText}>
             <button
               className="btn "
@@ -100,7 +107,7 @@ function Sidebar() {
           {state.serialize()}
         </p>
 
-        <h3 className="mt-20 text-3xl font-semibold text-white">
+        <h3 className="mt-[8vh] text-[4vh] font-semibold text-white">
           シリアルから復元
         </h3>
         <textarea

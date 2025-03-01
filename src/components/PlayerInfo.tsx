@@ -12,16 +12,18 @@ function PlayerInfo({ player }: { player: Player }) {
   const btnColor = player === Player.PLAYER1 ? "btn-primary" : "btn-secondary";
 
   return (
-    <div className={`border border-${color} h-60 rounded p-8 mb-10 w-full`}>
-      <div className="flex items-center">
-        <div className={`btn ${btnColor} w-[30px] h-[30px] mr-4`}>
+    <div className={`flex flex-col gap-4 border border-${color} rounded p-4`}>
+      <div className="flex items-center gap-4 text-[2vh]">
+        <div
+          className={`btn ${btnColor} w-[3vh] h-auto aspect-square p-0 text-[2vh]`}
+        >
           {sampleBtnText}
         </div>
         {playerName}
       </div>
-      <div className="flex mt-4">
+      <div className="flex gap-[clamp(4px,1vw,8px)]">
         {Array.from({ length: wallNum }).map((_, i) => (
-          <div key={i} className={`bg-${color} w-[10px] h-[50px] mr-4`}></div>
+          <div key={i} className={`bg-${color} w-[1vw] aspect-1/5`}></div>
         ))}
       </div>
     </div>

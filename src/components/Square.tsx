@@ -53,7 +53,7 @@ function Square({ cell }: { cell: Cell }) {
   }
   return (
     <button
-      className={`btn ${btnColor} w-[50px] h-[50px]`}
+      className={`btn ${btnColor} p-0 h-auto aspect-square`}
       key={cell.key}
       onClick={(e) => handleSquareClick(e, cell)}
       onMouseEnter={(e) => handleSquareMouseEnter(e, cell)}

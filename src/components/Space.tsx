@@ -36,15 +36,7 @@ function Space({ cell }: { cell: Cell }) {
     setCursoredWall(null);
   };
 
-  let properties = "w-[20px] h-[20px]";
-  // 縦
-  if (cell.isSpaceH) {
-    properties = "w-[50px] h-[20px]";
-  }
-  // 横
-  if (cell.isSpaceV) {
-    properties = "w-[20px] h-[50px]";
-  }
+  let properties = "";
   // 壁が置いてある場合は色を変える
   if (cell.player === Player.PLAYER1) {
     properties += " border-0 rounded-none bg-primary";
@@ -59,7 +51,7 @@ function Space({ cell }: { cell: Cell }) {
   }
   return (
     <div
-      className={`btn ${properties} p-0`}
+      className={`btn ${properties} p-0 h-auto`}
       key={cell.key}
       onClick={(e) => handleSpaceClick(e, cell)}
       onMouseEnter={(e) => handleSpaceMouseEnter(e, cell)}

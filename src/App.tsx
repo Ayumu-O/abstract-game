@@ -32,17 +32,19 @@ function App() {
   }, [serial, setState]);
 
   return (
-    <div className="flex h-screen w-full justify-center">
-      <Sidebar />
-      <div className="flex justify-center ml-20 w-full">
-        <div className="flex flex-col items-center justify-center">
+    <div className="h-screen overflow-auto">
+      <div className="flex flex-col-reverse min-h-screen w-[min(88%,1166px)] mx-auto md:flex-row gap-[4vh] lg:w-[min(72%,1166px)]">
+        <Sidebar />
+        <div className="flex flex-2 flex-col items-center justify-center gap-[4vh] my-[8vh] max-md:mt-0">
           <Description />
           <Board />
         </div>
-        <div className="ml-20 w-88 flex flex-col items-start justify-center">
+        <div className="flex flex-col flex-1 justify-center gap-[4vh] my-[8vh] w-auto max-md:mb-0">
           <Buttons />
-          <PlayerInfo player={Player.PLAYER1} />
-          <PlayerInfo player={Player.PLAYER2} />
+          <div className="flex gap-[4vh] md:flex-col justify-between">
+            <PlayerInfo player={Player.PLAYER1} />
+            <PlayerInfo player={Player.PLAYER2} />
+          </div>
         </div>
       </div>
     </div>

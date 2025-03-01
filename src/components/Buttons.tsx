@@ -4,7 +4,7 @@ import UndoButton from "./UndoButton";
 
 function Buttons() {
   return (
-    <div className="flex my-10">
+    <div className="flex justify-between gap-[2vw] w-full">
       <NewGameButton />
       <UndoButton />
       <RedoButton />

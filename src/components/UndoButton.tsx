@@ -17,7 +17,7 @@ function UndoButton() {
 
   return (
     <button
-      className={`btn btn-accent w-24 h-16 ml-4 ${active}`}
+      className={`btn btn-accent ${active} controll-btn`}
       onClick={(e) => handleClickUndo(e)}
     >
       Undo

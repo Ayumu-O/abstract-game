@@ -1,2 +1,6 @@
 @import "tailwindcss";
 @plugin "daisyui";
+
+.controll-btn {
+    @apply w-[6vw] aspect-9/7 p-2 m-0 h-auto max-md:w-[10vh] text-[2vh]
+}

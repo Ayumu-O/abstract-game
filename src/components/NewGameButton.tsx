@@ -16,7 +16,7 @@ function NewGameButton() {
 
   return (
     <button
-      className="btn btn-neutral w-24 h-16 ml-4"
+      className="btn btn-neutral controll-btn"
       onClick={(e) => handleClickReset(e)}
     >
       New Game
